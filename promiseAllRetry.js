@@ -18,8 +18,8 @@ function createMockRequest(name) {
 function tryRequest(request, times = 0, time = 1) {
   return request().catch(e => {
     if (time <= times) {
-      console.log(e.message, `第${time}次重试`);
-      tryRequest(request, times, ++time);
+      console.log(e, `第${time}次重试`);
+      return tryRequest(request, times, ++time);
     } else {
       return Promise.reject(e);
     }
