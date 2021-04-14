@@ -27,20 +27,11 @@ function createFlow(effects = []) {
   }
 }
 
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const subFlow = createFlow([() => delay(1000).then(() => console.log("c"))]);
-createFlow([
-  () => console.log("a"),
-  () => console.log("b"),
-  subFlow,
-  [() => delay(1000).then(() => console.log("d")), () => console.log("e")],
-]).run(() => {
-  console.log("done");
-});
 
 const createFlow2 = (flow) => {
   const runner = {};
+  runner.flow = flow;
   runner.run = async(fn) => {
     while (flow.length) {
       const effects = flow.shift();
@@ -53,3 +44,16 @@ const createFlow2 = (flow) => {
   }
   return runner;
 }
+
+
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const subFlow = createFlow([() => delay(1000).then(() => console.log("c"))]);
+createFlow([
+  () => console.log("a"),
+  () => console.log("b"),
+  subFlow,
+  [() => delay(1000).then(() => console.log("d")), () => console.log("e")],
+]).run(() => {
+  console.log("done");
+});
