@@ -38,3 +38,18 @@ createFlow([
 ]).run(() => {
   console.log("done");
 });
+
+const createFlow2 = (flow) => {
+  const runner = {};
+  runner.run = async(fn) => {
+    while (flow.length) {
+      const effects = flow.shift();
+      const type = Object.prototype.toString.call(effects).slice(8,-1);
+      if (type === 'Function') await effects();
+      if (type === 'Object') flow.unshift(...effects.flow);
+      if (type === 'Arrary') flow.unshift(...effects);
+    }
+    fn();
+  }
+  return runner;
+}
