@@ -5,7 +5,7 @@ const mySetTimeout = (cb, time) => {
   }, time);
 }
 
-const mySetInterval = (cn, time) => {
+const mySetInterval = (cb, time) => {
   (function innerDo() {
     const timer = setTimeout(() => {
       cb();
