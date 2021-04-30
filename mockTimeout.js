@@ -4,3 +4,13 @@ const mySetTimeout = (cb, time) => {
     cb();
   }, time);
 }
+
+const mySetInterval = (cn, time) => {
+  (function innerDo() {
+    const timer = setTimeout(() => {
+      cb();
+      clearInterval(timer);
+      innerDo();
+    }, time);
+  })()
+}
