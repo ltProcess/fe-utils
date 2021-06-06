@@ -39,3 +39,8 @@ function listToTree(list) {
   })
 }
 console.log(listToTree(list));
+
+module.exports = {
+  list,
+  listToTree
+}
