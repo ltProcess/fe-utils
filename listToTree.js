@@ -31,11 +31,11 @@ function listToTree(list) {
     map[node.id] = node;
     node.children = [];
     return map;
-  }, {})
+  }, {});
   console.log(info);
   return list.filter(node => {
     info[node.parentId] && info[node.parentId].children.push(node)
-    return !node.parentId
+    return !node.parentId;
   })
 }
 console.log(listToTree(list));
