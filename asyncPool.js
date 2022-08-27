@@ -1,13 +1,13 @@
- // Promise.all并发限制指的是，每个时刻并发执行的promise数量是固定的，最终的执行结果还是保持与原来的Promise.all一致
+// Promise.all并发限制指的是，每个时刻并发执行的promise数量是固定的，最终的执行结果还是保持与原来的Promise.all一致
 
- function asyncPool(poolLimit, array, iteratorFn) {
+function asyncPool(poolLimit, array, iteratorFn) {
   let i = 0;
   const ret = [];
   const executing = [];
   const enqueue = function () {
     // 边界处理，array为空数组
     if (i === array.length) {
-    return Promise.resolve();
+      return Promise.resolve();
     }
     // 每调一次enqueue，初始化一个promise
     const item = array[i++];
@@ -21,7 +21,7 @@
     // 使用Promise.rece，每当executing数组中promise数量低于poolLimit，就实例化新的promise并执行
     let r = Promise.resolve();
     if (executing.length >= poolLimit) {
-    r = Promise.race(executing);
+      r = Promise.race(executing);
     }
     // 递归，直到遍历完array
     return r.then(() => enqueue());
@@ -33,7 +33,7 @@ async function asyncPoolEs7(poolLimit, array, iteratorFn) {
   const ret = [];
   const executing = [];
   for (const item of array) {
-    const p = Promise.resolve().then(() => iteratorFn(item, array));
+    const p = Promise.resolve().then(() => iteratorFn(item));
     ret.push(p);
     if (poolLimit <= array.length) {
       const e = p.then(() => executing.splice(executing.indexOf(e), 1));
@@ -46,10 +46,15 @@ async function asyncPoolEs7(poolLimit, array, iteratorFn) {
   return Promise.all(ret);
 }
 
-
 // const timeout = i => new Promise(resolve => setTimeout(() => resolve(i), i));
 // return asyncPool(2, [1000, 5000, 3000, 2000], timeout).then(results => {
 //     ...
 // })
-const timeout = i => new Promise(resolve => setTimeout(() => resolve(i), i));
-asyncPool(2, [1000, 5000, 3000, 2000], timeout);
+const timeout = (i) =>
+  new Promise((resolve) =>
+    setTimeout(() => {
+      console.log(i);
+      resolve(i);
+    }, i)
+  );
+const amen = asyncPoolEs7(6, [1000, 5000, 3000, 2000], timeout);
