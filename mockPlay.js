@@ -1,19 +1,53 @@
 // https://juejin.cn/post/7018427747617751076 字节跳动商业化 社招
 const userList = [
   {
+    id: "四川",
+    province: "四川",
+    parentId: "",
+  },
+  {
+    id: "江苏",
+    province: "江苏",
+    parentId: "",
+  },
+
+  {
+    id: "成都",
+    city: "成都",
+    parentId: "四川",
+  },
+  {
+    id: "南充",
+    city: "南充",
+    parentId: "四川",
+  },
+  {
+    id: "南京",
+    city: "南京",
+    parentId: "江苏",
+  },
+  {
+    id: "镇江",
+    city: "镇江",
+    parentId: "江苏",
+  },
+
+  {
     name: "user1",
     age: 18,
     province: "四川",
-    city: "成都",
     district: "高新区",
+    id: "高新区",
+    parentId: "成都",
   },
 
   {
     name: "user2",
     age: 19,
     province: "四川",
-    city: "成都",
     district: "天府新区",
+    id: "天府新区",
+    parentId: "成都",
   },
 
   {
@@ -22,6 +56,8 @@ const userList = [
     province: "四川",
     city: "南充",
     district: "顺庆区",
+    id: "顺庆区",
+    parentId: "南充",
   },
 
   {
@@ -30,6 +66,8 @@ const userList = [
     province: "江苏",
     city: "南京",
     district: "鼓楼区",
+    id: "鼓楼区",
+    parentId: "南京",
   },
 
   {
@@ -38,6 +76,8 @@ const userList = [
     province: "江苏",
     city: "南京",
     district: "玄武区",
+    id: "玄武区",
+    parentId: "南京",
   },
 
   {
@@ -46,38 +86,17 @@ const userList = [
     province: "江苏",
     city: "镇江",
     district: "京口区",
+    id: "京口区",
+    parentId: "镇江",
   },
 ];
 
-/**
-{
-    "四川": {
-        "成都": {
-            "高新区": "user1",
-            "天府新区": "user2"
-        },
-        "南充": {
-            "顺庆区": "user3"
-        }
-    },
-    "江苏": {
-        "南京": {
-            "鼓楼区": "user4",
-            "玄武区": "user5"
-        },
-        "镇江": {
-            "京口区": "user6"
-        }
-    }
-}
- */
-
-function list2tree(list, path) {
+function list2Tree(list) {
   const tree = [];
   for (const node of list) {
     if (!node.parentId) {
       let p = { ...node };
-      p.children = getChildren(p.province, list);
+      p.children = getChildren(p.id, list);
       tree.push(p);
     }
   }
@@ -94,20 +113,11 @@ function list2tree(list, path) {
     }
     return children;
   }
-  console.log("tree", tree);
   return tree;
-  // const info = list.reduce((current, patch) => {
-  //   if (!current[patch.province]) {
-  //     current[patch.province] = {};
-  //     current[patch.province].children = [];
-  //   }
-  //   current[patch.province].children.push(patch);
-  //   return current;
-  // }, {});
-  // console.log("info", info);
 }
 
-const userTree = list2tree(userList, "province/city/district");
+const userTree = list2Tree(userList, "province/city/district");
+console.log("userTree", userTree);
 
 // https://juejin.cn/post/6972751722410147854
 const data = [
@@ -197,7 +207,7 @@ function findPath(data, id) {
   }
   return res;
 }
-console.log("findPath", findPath(data, "9"));
+// console.log("findPath", findPath(data, "9"));
 // 返回给定id在 data 里的路径
 // 示例:
 
