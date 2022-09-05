@@ -13,7 +13,6 @@ addTask(4000, '1')
 addTask(3500, '2')
 addTask(4000, '3')
 addTask(3000, '4')
-.....
 
 //Scheduler ？
 //4秒后打印1
