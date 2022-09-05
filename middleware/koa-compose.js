@@ -42,6 +42,14 @@
 //   return handleRequest;
 // }
 
+// handleRequest(ctx, fn) {
+//   // 省略无关代码...
+//   const onerror = err => ctx.onerror(err);
+//   const handleResponse = () => respond(ctx);
+//   // 省略无关代码...
+//   return fn(ctx).then(handleResponse).catch(onerror);
+// }
+
 function compose(middleware) {
   if (!Array.isArray(middleware))
     throw new TypeError("Middleware stack must be an array!");

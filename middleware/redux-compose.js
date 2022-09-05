@@ -8,3 +8,4 @@ function compose(...funcs) {
         a(b(...args))
   );
 }
+// 详解：https://segmentfault.com/a/1190000015801987
