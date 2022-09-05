@@ -46,3 +46,32 @@ function betterFlatObj(obj, key = "", res = {}, isArray = false) {
 }
 console.log(flatObj(testObj));
 console.log(betterFlatObj(testObj));
+
+const flatenList = (list) => {
+  const len = list.length;
+  const result = [];
+  for (let i = 0; i < len; i++) {
+    if (Array.isArray(list[i])) {
+      result.push(...flatenList(list[i]));
+    } else {
+      result.push(list[i]);
+    }
+  }
+  return result;
+};
+
+const flatenList2 = (list) => {
+  const len = list.length;
+  const stack = [...list];
+  const result = [];
+  while (stack.length > 0) {
+    const cur = stack.pop();
+    if (Array.isArray(cur)) {
+      stack.push(...cur);
+    } else {
+      result.push(cur);
+    }
+  }
+  return result.reverse();
+};
+console.log(flatenList([1, 2, [3, [4, [5, 6]]]]));
