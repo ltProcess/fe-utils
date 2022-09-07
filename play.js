@@ -63,50 +63,36 @@ function add(s, t) {
   return resArr.join("");
 }
 
-// 输入：nums = [1,2,3]
-// 输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
-const permute = function (nums) {
-  const result = [];
-  const used = {};
-  const len = nums.length;
-  const dfs = (list) => {
-    if (list.length === len) {
-      result.push([...list]);
-      return;
-    }
-    for (let i = 0; i < len; i++) {
-      if (used[nums[i]]) continue;
-      list.push(nums[i]);
-      used[nums[i]] = true;
-      dfs(list);
-      list.pop();
-      used[nums[i]] = false;
-    }
-  };
-  dfs([]);
-  return result;
-};
-// console.log(permute([1, 2, 3]));
-
-// 输入：nums = [1,2,3]
-// 输出：[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
-const subsets = function (nums) {
-  const res = [];
-  const temp = [];
-  const len = nums.length;
-  const dfs = (cur) => {
-    if (cur === nums.length) {
-      res.push([...temp]);
-      return;
-    }
-    temp.push(nums[cur]);
-    dfs(cur + 1);
-    temp.pop();
-    dfs(cur + 1);
-  };
-  dfs(0);
-  return res;
-};
-console.log(subsets([1, 2, 3]));
+// console.log(subsets([1, 2, 3]));
 
 const generateParenthesis = function (n) {};
+
+// 输入：nums = [1,1,1], k = 2
+// 输出：2
+const subarraySum = function (nums, k) {
+  // const len = nums.length;
+  // const result = [];
+  // const dfs = (list, cur) => {
+  //   // if (list.length === 0) return;
+  //   for (let i = 0; i < len; i++) {
+  //     list.push(nums[i]);
+  //     console.log("result", result);
+  //     // dfs(nums.slice(i + 1));
+  //     // list.shifft();
+  //   }
+  // };
+  // dfs(result, 0);
+  // console.log("result", result);
+  const len = nums.length;
+  let cur = 0;
+  let res = 0;
+  for (let i = 0; i < len; i++) {
+    cur = 0;
+    for (let j = i; j >= 0; j--) {
+      cur += nums[j];
+      if (cur === k) res += 1;
+    }
+  }
+  return res;
+};
+console.log(subarraySum([1, 1, 1], 2));
