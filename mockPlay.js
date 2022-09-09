@@ -216,3 +216,59 @@ function findPath(data, id) {
 // id = "100"=> []
 // PS: id 全局唯一，无序
 // ```
+
+function to_string(num, radix) {
+  //把一个十进制数转换为传参的进制数
+  if (num == 0) return num;
+  if (!Number.isInteger(num)) {
+    //目前不支持小鼠
+    console.warn("目前不支持小数转换");
+    return;
+  }
+  var res = "",
+    rate,
+    i;
+  if (num < 0) {
+    //对负数的处理
+    res += "-";
+    num = Math.abs(num);
+  }
+  //下面循环为了获得最高的幂数，比如上面的110转换为16进制为6e,其中i为1;也就是16**1*6中的1;
+  //获取最高的幂数是为了下面根据幂数来推算每一位的倍数和相应的字符
+  for (i = 0; i < num; i++) {
+    if (Math.pow(radix, i) <= num && Math.pow(radix, i + 1) > num) {
+      break;
+    }
+  }
+  //开始根据最高幂数，也就是有幂数+1个字符，开始获取结果字符
+  while (i >= 0) {
+    rate = Math.floor(num / Math.pow(radix, i)); //获得最高的幂数的倍数
+    res += digits[rate]; //比如110转16进制为6e时，第一次rate为6,digits[6] === 6,第二次 rate为14,digits[14] === e;因此res经过2次相加为6e;
+    num -= rate * Math.pow(radix, i); //由于算过最高位，因此减去已经算过的高位数.继续下一次计算
+    i--;
+  }
+  return res;
+}
+
+//把一个数按照传参的进制解析为十进制。
+function parse_int(str, radix) {
+  str = (str + "").toUpperCase();
+  var res = 0,
+    abs = 1,
+    len = str.length,
+    i;
+  if (str[0] === "-") {
+    //对负数的处理
+    abs = -1;
+    str = str.substring(1);
+  }
+  for (i = len - 1; i >= 0; i--) {
+    res += digits.indexOf(str[len - 1 - i]) * Math.pow(radix, i);
+  }
+  return abs * res;
+}
+
+function convert_radix(str, source_radix, to_radix) {
+  //把数按source_radix进制解析转换为to_radix进制
+  return to_string(parse_int(str, source_radix), to_radix);
+}

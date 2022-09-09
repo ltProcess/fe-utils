@@ -96,3 +96,15 @@ const subarraySum = function (nums, k) {
   return res;
 };
 console.log(subarraySum([1, 1, 1], 2));
+
+const maxSubArray = function (nums) {
+  const len = nums.length;
+  if (len <= 1) return len;
+  let result = 0;
+  for (let i = 0; i < len; i++) {
+    let cur = nums[i];
+    for (let j = 1; j < len; j++) {
+      if (nums[j]) cur += nums[j];
+    }
+  }
+};
