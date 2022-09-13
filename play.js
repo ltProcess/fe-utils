@@ -95,7 +95,7 @@ const subarraySum = function (nums, k) {
   }
   return res;
 };
-console.log(subarraySum([1, 1, 1], 2));
+// console.log(subarraySum([1, 1, 1], 2));
 
 const maxSubArray = function (nums) {
   const len = nums.length;
@@ -108,3 +108,38 @@ const maxSubArray = function (nums) {
     }
   }
 };
+
+// 输入：s = "3[a]2[bc]"
+// 输出："aaabcbc"
+const decodeString = function (s) {
+  const len = s.length;
+  const timesStack = [];
+  const resStack = [];
+  let res = "";
+  let times = 0;
+  for (let i = 0; i < len; i++) {
+    const cur = s[i];
+    const n = s.charCodeAt(i);
+    if (cur === "[") {
+      timesStack.push(times);
+      resStack.push(res);
+      times = 0;
+      res = "";
+    } else if (cur === "]") {
+      let temp = "";
+      let count = timesStack.pop();
+      let curRes = resStack.pop();
+      for (let j = 0; j < count; j++) {
+        temp += res;
+      }
+      res = curRes + temp;
+    } else if (n >= 48 && n <= 57) {
+      times = times * 10 + (cur - "0");
+    } else {
+      res += cur;
+    }
+  }
+  return res;
+};
+
+console.log("decodeString", decodeString("100[leetcode]"));
