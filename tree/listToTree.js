@@ -68,7 +68,7 @@ function list2Tree(list) {
   }
   return tree;
 }
-console.log(list2Tree(list));
+console.log(listToTree(list));
 
 module.exports = {
   list,
